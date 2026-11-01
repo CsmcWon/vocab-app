@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VocaBoost - 英単語学習アプリ</title>
+    <title>Vスペリングコンテスト　英和編</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
@@ -46,7 +46,7 @@
                 <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-500 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-500/30">
                     <i data-lucide="zap" class="w-5 h-5 text-white"></i>
                 </div>
-                <span class="font-extrabold text-lg tracking-tight bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent">VocaBoost</span>
+                <span class="font-extrabold text-lg tracking-tight bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent">SC</span>
             </div>
             <div id="header-user-info" class="hidden items-center space-x-2">
                 <span id="header-username" class="text-xs font-semibold px-3 py-1 bg-slate-700 text-slate-300 rounded-full truncate max-w-[120px]"></span>
@@ -77,39 +77,926 @@
     <!-- Application Script -->
     <script>
         // 内蔵英単語データ（難易度 A / B / C 付与）
-        const DEFAULT_WORDS = [
-            // ランクA（初級・基本）
-            { id: 1, en: "abandon", ja: "見捨てる、断念する", level: "A" },
-            { id: 2, en: "ability", ja: "能力、才能", level: "A" },
-            { id: 3, en: "abroad", ja: "外国へ、海外で", level: "A" },
-            { id: 4, en: "absolute", ja: "絶対的な、完全な", level: "A" },
-            { id: 5, en: "academic", ja: "学問の、大学の", level: "A font" },
-            { id: 6, en: "accept", ja: "受け入れる、承認する", level: "A" },
-            { id: 7, en: "access", ja: "接近方法、利用する権利", level: "A" },
-            // ランクB（中級）
-            { id: 8, en: "accident", ja: "事故、偶然の出来事", level: "B" },
-            { id: 9, en: "accompany", ja: "同行する、付随する", level: "B" },
-            { id: 10, en: "accomplish", ja: "成し遂げる、達成する", level: "B" },
-            { id: 11, en: "account", ja: "口座、説明する", level: "B" },
-            { id: 12, en: "accurate", ja: "正確な、精密な", level: "B" },
-            { id: 13, en: "achieve", ja: "達成する、成し遂げる", level: "B" },
-            { id: 14, en: "acknowledge", ja: "認める、謝意を表す", level: "B" },
-            // ランクC（上級）
-            { id: 15, en: "acquire", ja: "獲得する、習得する", level: "C" },
-            { id: 16, en: "adapt", ja: "適応させる、適合する", level: "C" },
-            { id: 17, en: "addition", ja: "追加、足し算", level: "C" },
-            { id: 18, en: "adequate", ja: "十分な、適切な", level: "C" },
-            { id: 19, en: "adjust", ja: "調節する、慣れる", level: "C" },
-            { id: 20, en: "administration", ja: "管理、経営、政権", level: "C" }
+    const DEFAULT_WORDS = [
+        { id: 1, en: "call", ja: "～を…と呼ぶ", level: "A" },
+        { id: 2, en: "learn", ja: "習う、学ぶ", level: "A" },
+        { id: 3, en: "please", ja: "どうぞ お願いします", level: "A" },
+        { id: 4, en: "like", ja: "～を好む ～が好きである", level: "A" },
+        { id: 5, en: "play", ja: "～をする 楽器を演奏する", level: "A" },
+        { id: 6, en: "want to", ja: "～したい", level: "A" },
+        { id: 7, en: "know", ja: "知っている", level: "A" },
+        { id: 8, en: "For example", ja: "例えば", level: "A" },
+        { id: 9, en: "speak", ja: "話す", level: "A" },
+        { id: 10, en: "begin", ja: "始める", level: "A" },
+        { id: 11, en: "everyone", ja: "みなさん", level: "A" },
+        { id: 12, en: "but", ja: "しかし", level: "A" },
+        { id: 13, en: "Thank you.", ja: "ありがとう。", level: "A" },
+        { id: 14, en: "can", ja: "～することができる", level: "A" },
+        { id: 15, en: "run", ja: "走る", level: "A" },
+        { id: 16, en: "with", ja: "～といっしょに", level: "A" },
+        { id: 17, en: "talk", ja: "話す", level: "A" },
+        { id: 18, en: "excited", ja: "興奮した わくわくした", level: "A" },
+        { id: 19, en: "people", ja: "人々", level: "A" },
+        { id: 20, en: "really", ja: "本当に", level: "A" },
+        { id: 21, en: "many", ja: "たくさんの", level: "A" },
+        { id: 22, en: "write", ja: "書く", level: "A" },
+        { id: 23, en: "wait", ja: "待つ", level: "A" },
+        { id: 24, en: "love", ja: "大好き", level: "A" },
+        { id: 25, en: "listen", ja: "聞く", level: "A" },
+        { id: 26, en: "soon", ja: "すぐに", level: "A" },
+        { id: 27, en: "time", ja: "時間", level: "A" },
+        { id: 28, en: "who", ja: "誰", level: "A" },
+        { id: 29, en: "mother", ja: "母", level: "A" },
+        { id: 30, en: "sister", ja: "姉妹", level: "A" },
+        { id: 31, en: "Japan", ja: "日本", level: "A" },
+        { id: 32, en: "tooth\nteeth", ja: "歯", level: "A" },
+        { id: 33, en: "child\nchildren", ja: "子供", level: "A" },
+        { id: 34, en: "milk", ja: "牛乳", level: "A" },
+        { id: 35, en: "morning", ja: "朝", level: "A" },
+        { id: 36, en: "walk", ja: "歩く", level: "A" },
+        { id: 37, en: "boy", ja: "少年", level: "A" },
+        { id: 38, en: "desk", ja: "机", level: "A" },
+        { id: 39, en: "color", ja: "色", level: "A" },
+        { id: 40, en: "blue", ja: "青", level: "A" },
+        { id: 41, en: "go\nwent", ja: "行く ※過去形", level: "A" },
+        { id: 42, en: "see\nsaw", ja: "見る ※過去形", level: "A" },
+        { id: 43, en: "thing", ja: "もの、こと", level: "A" },
+        { id: 44, en: "tell", ja: "話す", level: "A" },
+        { id: 45, en: "us", ja: "私たちを[に]", level: "A" },
+        { id: 46, en: "take\ntook（過去形）", ja: "撮る", level: "A" },
+        { id: 47, en: "another", ja: "もう一つの 別の", level: "A" },
+        { id: 48, en: "costume", ja: "衣装", level: "A" },
+        { id: 49, en: "hit", ja: "打つ", level: "A" },
+        { id: 50, en: "here", ja: "ここに", level: "A" },
+        { id: 51, en: "funny", ja: "おもしろい", level: "A" },
+        { id: 52, en: "often", ja: "しばしば", level: "A" },
+        { id: 53, en: "actually", ja: "実際は", level: "A" },
+        { id: 54, en: "chef", ja: "料理長", level: "A" },
+        { id: 55, en: "work", ja: "働く", level: "A" },
+        { id: 56, en: "especially", ja: "特に", level: "A" },
+        { id: 57, en: "restaurant", ja: "レストラン", level: "A" },
+        { id: 58, en: "sometimes", ja: "ときどき", level: "A" },
+        { id: 59, en: "try", ja: "試す", level: "A" },
+        { id: 60, en: "some", ja: "いくつかの", level: "A" },
+        { id: 61, en: "fan", ja: "ファン", level: "A" },
+        { id: 62, en: "borrow", ja: "借りる", level: "A" },
+        { id: 63, en: "live", ja: "住む", level: "A" },
+        { id: 64, en: "teach", ja: "教える", level: "A" },
+        { id: 65, en: "buy", ja: "買う", level: "A" },
+        { id: 66, en: "usually", ja: "普通は", level: "A" },
+        { id: 67, en: "interesting", ja: "面白い 興味深い", level: "A" },
+        { id: 68, en: "everybody", ja: "みなさん", level: "A" },
+        { id: 69, en: "minute", ja: "（時間の） 分", level: "A" },
+        { id: 70, en: "those", ja: "それらの あれらの", level: "A" },
+        { id: 71, en: "tea", ja: "お茶", level: "A" },
+        { id: 72, en: "someone", ja: "誰か", level: "A" },
+        { id: 73, en: "word", ja: "言葉", level: "A" },
+        { id: 74, en: "only", ja: "ただ～だけ ほんの", level: "A" },
+        { id: 75, en: "girl", ja: "少女", level: "A" },
+        { id: 76, en: "near", ja: "近くに", level: "A" },
+        { id: 77, en: "window", ja: "窓", level: "A" },
+        { id: 78, en: "hand", ja: "手", level: "A" },
+        { id: 79, en: "sleep", ja: "眠る", level: "A" },
+        { id: 80, en: "because", ja: "なぜなら", level: "A" },
+        { id: 81, en: "come", ja: "来る", level: "A" },
+        { id: 82, en: "why", ja: "なぜ", level: "A" },
+        { id: 83, en: "get up", ja: "起きる", level: "A" },
+        { id: 84, en: "leave\nleft（過去形）", ja: "～を残す", level: "A" },
+        { id: 85, en: "yours", ja: "あなたのもの", level: "A" },
+        { id: 86, en: "all", ja: "全ての", level: "A" },
+        { id: 87, en: "necessary", ja: "必要な", level: "A" },
+        { id: 88, en: "make", ja: "作る", level: "A" },
+        { id: 89, en: "him", ja: "彼を（に）", level: "A" },
+        { id: 90, en: "hers", ja: "彼女のもの", level: "A" },
+        { id: 91, en: "ours", ja: "私たちのもの", level: "A" },
+        { id: 92, en: "theirs", ja: "彼らのもの 彼女らのもの", level: "A" },
+        { id: 93, en: "Exvuse me", ja: "すみませんが.", level: "A" },
+        { id: 94, en: "mean", ja: "意味する", level: "A" },
+        { id: 95, en: "then", ja: "それでは", level: "A" },
+        { id: 96, en: "take off", ja: "脱ぐ", level: "A" },
+        { id: 97, en: "get\ngot（過去形）", ja: "得る", level: "A" },
+        { id: 98, en: "understand", ja: "理解する", level: "A" },
+        { id: 99, en: "careful", ja: "注意深い", level: "A" },
+        { id: 100, en: "answer", ja: "答える", level: "A" },
+        { id: 101, en: "under", ja: "～の下の（に）", level: "A" },
+        { id: 102, en: "help", ja: "助ける 手伝う", level: "A" },
+        { id: 103, en: "finish", ja: "終える", level: "A" },
+        { id: 104, en: "homework", ja: "宿題", level: "A" },
+        { id: 105, en: "tomorrow", ja: "明日", level: "A" },
+        { id: 106, en: "language", ja: "言語", level: "A" },
+        { id: 107, en: "show", ja: "示す 見せる", level: "A" },
+        { id: 108, en: "say\nsaid（過去形）", ja: "言う", level: "A" },
+        { id: 109, en: "use", ja: "使う", level: "A" },
+        { id: 110, en: "success", ja: "成功", level: "A" },
+        { id: 111, en: "easily", ja: "簡単に", level: "A" },
+        { id: 112, en: "expensive", ja: "高価な", level: "A" },
+        { id: 113, en: "computer", ja: "コンピューター", level: "A" },
+        { id: 114, en: "easy", ja: "簡単な", level: "A" },
+        { id: 115, en: "believe", ja: "信じる", level: "A" },
+        { id: 116, en: "tell\ntold（過去形）", ja: "話す", level: "A" },
+        { id: 117, en: "later", ja: "あとで", level: "A" },
+        { id: 118, en: "world", ja: "世界", level: "A" },
+        { id: 119, en: "set", ja: "設定する", level: "A" },
+        { id: 120, en: "future", ja: "将来・未来", level: "A" },
+        { id: 121, en: "tired", ja: "疲れた", level: "A" },
+        { id: 122, en: "something", ja: "何か", level: "A" },
+        { id: 123, en: "reason", ja: "理由", level: "A" },
+        { id: 124, en: "over there", ja: "向こうに（で）", level: "A" },
+        { id: 125, en: "old", ja: "古い", level: "A" },
+        { id: 126, en: "table", ja: "テーブル", level: "A" },
+        { id: 127, en: "hospital", ja: "病院", level: "A" },
+        { id: 128, en: "government", ja: "政府", level: "A" },
+        { id: 129, en: "percent", ja: "パーセント", level: "A" },
+        { id: 130, en: "responsible", ja: "責任がある", level: "A" },
+        { id: 131, en: "effort", ja: "努力", level: "A" },
+        { id: 132, en: "difference", ja: "違い", level: "A" },
+        { id: 133, en: "important", ja: "重要な", level: "A" },
+        { id: 134, en: "buy\nbough(過去形)", ja: "買う", level: "A" },
+        { id: 135, en: "far", ja: "遠くに（へ）", level: "A" },
+        { id: 136, en: "in front of", ja: "～の前で（に）", level: "A" },
+        { id: 137, en: "What's wrong", ja: "何か問題があるのですか。", level: "A" },
+        { id: 138, en: "headache", ja: "頭痛", level: "A" },
+        { id: 139, en: "stomachache", ja: "胃痛", level: "A" },
+        { id: 140, en: "medicine", ja: "薬", level: "A" },
+        { id: 141, en: "woman", ja: "女性", level: "A" },
+        { id: 142, en: "send\nsent", ja: "送る ※過去形", level: "A" },
+        { id: 143, en: "news", ja: "ニュース", level: "A" },
+        { id: 144, en: "thousand", ja: "1000(の)", level: "A" },
+        { id: 145, en: "take time", ja: "時間がかかる", level: "A" },
+        { id: 146, en: "hope", ja: "望む", level: "A" },
+        { id: 147, en: "hundred", ja: "100(の)", level: "A" },
+        { id: 148, en: "sunny", ja: "晴れた", level: "A" },
+        { id: 149, en: "break", ja: "壊す", level: "A" },
+        { id: 150, en: "rain", ja: "雨が降る", level: "A" },
+        { id: 151, en: "information", ja: "情報", level: "A" },
+        { id: 152, en: "meet", ja: "会う", level: "A" },
+        { id: 153, en: "again", ja: "もう一度", level: "A" },
+        { id: 154, en: "sing", ja: "歌う", level: "A" },
+        { id: 155, en: "earth", ja: "地球", level: "A" },
+        { id: 156, en: "Not yet.", ja: "まだです。", level: "A" },
+        { id: 157, en: "average", ja: "平均の", level: "A" },
+        { id: 158, en: "feel like", ja: "～のように感じる", level: "A" },
+        { id: 159, en: "agree", ja: "賛成する", level: "A" },
+        { id: 160, en: "all over the world", ja: "世界中で", level: "A" },
+        { id: 161, en: "disappear", ja: "消える", level: "A" },
+        { id: 162, en: "heat", ja: "熱", level: "A" },
+        { id: 163, en: "if", ja: "もし～ならば", level: "A" },
+        { id: 164, en: "reduce", ja: "減少させる", level: "A" },
+        { id: 165, en: "fine", ja: "晴れている", level: "A" },
+        { id: 166, en: "trash", ja: "ごみ", level: "A" },
+        { id: 167, en: "look like ～", ja: "～のように見える", level: "A" },
+        { id: 168, en: "empty", ja: "空の", level: "A" },
+        { id: 169, en: "grape", ja: "ブドウ", level: "A" },
+        { id: 170, en: "container", ja: "容器", level: "A" },
+        { id: 171, en: "push", ja: "押す", level: "A" },
+        { id: 172, en: "woman\nwomen", ja: "女性 ※複数形", level: "A" },
+        { id: 173, en: "distance", ja: "距離", level: "A" },
+        { id: 174, en: "carry", ja: "運ぶ", level: "A" },
+        { id: 175, en: "heavy", ja: "重い", level: "A" },
+        { id: 176, en: "solve", ja: "解決する", level: "A" },
+        { id: 177, en: "create", ja: "創造する", level: "A" },
+        { id: 178, en: "person", ja: "人", level: "A" },
+        { id: 179, en: "head", ja: "頭", level: "A" },
+        { id: 180, en: "stadium", ja: "競技場", level: "A" },
+        { id: 181, en: "between", ja: "～の間に", level: "A" },
+        { id: 182, en: "button", ja: "ボタン", level: "A" },
+        { id: 183, en: "think of", ja: "～を考え出す", level: "A" },
+        { id: 184, en: "May I ～?", ja: "～してもいいですか。", level: "A" },
+        { id: 185, en: "order", ja: "注文", level: "A" },
+        { id: 186, en: "a cup of", ja: "カップ一杯の", level: "A" },
+        { id: 187, en: "salad", ja: "サラダ", level: "A" },
+        { id: 188, en: "orange", ja: "オレンジ（の）", level: "A" },
+        { id: 189, en: "fly", ja: "とぶ", level: "A" },
+        { id: 190, en: "kilometer", ja: "キロメートル", level: "A" },
+        { id: 191, en: "per", ja: "～につき", level: "A" },
+        { id: 192, en: "hour", ja: "時間 1時間", level: "A" },
+        { id: 193, en: "nothing", ja: "何も～ない", level: "A" },
+        { id: 194, en: "upper", ja: "上の", level: "A" },
+        { id: 195, en: "feather", ja: "羽", level: "A" },
+        { id: 196, en: "must", ja: "～しなければならない", level: "A" },
+        { id: 197, en: "parent", ja: "親", level: "A" },
+        { id: 198, en: "while", ja: "～する間に", level: "A" },
+        { id: 199, en: "once", ja: "かつて", level: "A" },
+        { id: 200, en: "tall", ja: "（背・建物などが） 高い", level: "A" },
+        { id: 201, en: "gray", ja: "灰色（の）", level: "A" },
+        { id: 202, en: "figure", ja: "～と考える, 図", level: "A" },
+        { id: 203, en: "black", ja: "男性の・オスの", level: "A" },
+        { id: 204, en: "white", ja: "黒（い）", level: "A" },
+        { id: 205, en: "white", ja: "白（い）", level: "A" },
+        { id: 206, en: "teach", ja: "教える", level: "A" },
+        { id: 207, en: "customer", ja: "客", level: "A" },
+        { id: 208, en: "sound like", ja: "～のようだ", level: "A" },
+        { id: 209, en: "chance", ja: "機会", level: "A" },
+        { id: 210, en: "station", ja: "駅", level: "A" },
+        { id: 211, en: "abroad", ja: "外国に（で）", level: "A" },
+        { id: 212, en: "difficulty", ja: "苦難", level: "A" },
+        { id: 213, en: "require", ja: "必要とする", level: "A" },
+        { id: 214, en: "respect", ja: "尊敬する", level: "A" },
+        { id: 215, en: "health", ja: "健康", level: "A" },
+        { id: 216, en: "shelf\nshelves（複数形）", ja: "棚", level: "A" },
+        { id: 217, en: "still", ja: "まだ", level: "A" },
+        { id: 218, en: "cut", ja: "切る", level: "A" },
+        { id: 219, en: "hole", ja: "穴", level: "A" },
+        { id: 220, en: "top", ja: "てっぺん", level: "A" },
+        { id: 221, en: "part", ja: "部分", level: "A" },
+        { id: 222, en: "face", ja: "顔", level: "A" },
+        { id: 223, en: "lastly", ja: "最後に", level: "A" },
+        { id: 224, en: "take place", ja: "行われる", level: "A" },
+        { id: 225, en: "dead", ja: "死んでいる", level: "A" },
+        { id: 226, en: "therefore", ja: "それゆえに", level: "A" },
+        { id: 227, en: "scary", ja: "怖い", level: "A" },
+        { id: 228, en: "keep ～ away", ja: "～を遠ざける", level: "A" },
+        { id: 229, en: "history", ja: "歴史", level: "A" },
+        { id: 230, en: "church", ja: "教会", level: "A" },
+        { id: 231, en: "remember", ja: "思い出す 覚えている", level: "A" },
+        { id: 232, en: "return", ja: "戻る", level: "A" },
+        { id: 233, en: "during", ja: "～の間に", level: "A" },
+        { id: 234, en: "Could you ～?", ja: "～していただけませんか。", level: "A" },
+        { id: 235, en: "May I help you?", ja: "いらっしゃいませ。", level: "A" },
+        { id: 236, en: "meter", ja: "メートル", level: "A" },
+        { id: 237, en: "building", ja: "建物", level: "A" },
+        { id: 238, en: "temple", ja: "寺", level: "A" },
+        { id: 239, en: "mountain", ja: "山", level: "A" },
+        { id: 240, en: "prefer ～ to …", ja: "…より～が好きである", level: "A" },
+        { id: 241, en: "search", ja: "検索 探査", level: "A" },
+        { id: 242, en: "money", ja: "お金", level: "A" },
+        { id: 243, en: "national", ja: "国の", level: "A" },
+        { id: 244, en: "such as", ja: "～のような", level: "A" },
+        { id: 245, en: "light", ja: "光", level: "A" },
+        { id: 246, en: "because of", ja: "～のおかげで", level: "A" },
+        { id: 247, en: "scenery", ja: "景色", level: "A" },
+        { id: 248, en: "print", ja: "印刷する", level: "A" },
+        { id: 249, en: "middle", ja: "中間", level: "A" },
+        { id: 250, en: "sang\nsung(過去分詞)", ja: "歌う(sing)の過去形", level: "A" },
+        { id: 251, en: "took\ntaken(過去分詞)", ja: "取る(take)の過去形", level: "A" },
+        { id: 252, en: "event", ja: "イベント", level: "A" },
+        { id: 253, en: "fee", ja: "料金", level: "A" },
+        { id: 254, en: "hold / held / held", ja: "保つ", level: "A" },
+        { id: 255, en: "sell / sold / sold", ja: "売る", level: "A" },
+        { id: 256, en: "spend / spent / spent", ja: "過ごす", level: "A" },
+        { id: 257, en: "not only ～ but also　・・・", ja: "～だけでなく…も", level: "A" },
+        { id: 258, en: "end", ja: "終わり", level: "A" },
+        { id: 259, en: "natural", ja: "自然の", level: "A" },
+        { id: 260, en: "feel / felt / felt", ja: "感じる", level: "A" },
+        { id: 261, en: "build / built / built", ja: "建てる", level: "A" },
+        { id: 262, en: "garden", ja: "庭", level: "A" },
+        { id: 263, en: "write / wrote / written", ja: "書く", level: "A" },
+        { id: 264, en: "born", ja: "生まれる", level: "A" },
+        { id: 265, en: "drew", ja: "描く(draw)の過去形", level: "A" },
+        { id: 266, en: "as well as", ja: "～と同様に", level: "A" },
+        { id: 267, en: "knew", ja: "知っている(know)の過去形", level: "A" },
+        { id: 268, en: "cure", ja: "（人・病気を） 治す", level: "A" },
+        { id: 269, en: "began", ja: "始める(begin)の過去形", level: "A" },
+        { id: 270, en: "night after night", ja: "毎晩", level: "A" },
+        { id: 271, en: "break out", ja: "突然起こる", level: "A" },
+        { id: 272, en: "somehow", ja: "どうにか", level: "A" },
+        { id: 273, en: "enter", ja: "入る", level: "A" },
+        { id: 274, en: "medical", ja: "医学の", level: "A" },
+        { id: 275, en: "bomb", ja: "爆弾", level: "A" },
+        { id: 276, en: "precious", ja: "貴重な", level: "A" },
+        { id: 277, en: "one ～ after another", ja: "次から次へと", level: "A" },
+        { id: 278, en: "disease", ja: "病気", level: "A" },
+        { id: 279, en: "injury", ja: "けが", level: "A" },
+        { id: 280, en: "past", ja: "過去", level: "A" },
+        { id: 281, en: "reader", ja: "読者", level: "A" },
+        { id: 282, en: "main", ja: "主な", level: "A" },
+        { id: 283, en: "for oneself", ja: "独力で", level: "A" },
+        { id: 284, en: "beginning", ja: "始まり", level: "A" },
+        { id: 285, en: "age", ja: "年齢・年", level: "A" },
+        { id: 286, en: "media", ja: "マスメディア", level: "A" },
+        { id: 287, en: "continue", ja: "続ける", level: "A" },
+        { id: 288, en: "try ～ on", ja: "～を試着する", level: "A" },
+        { id: 289, en: "price", ja: "価格", level: "A" },
+        { id: 290, en: "size", ja: "サイズ", level: "A" },
+        { id: 291, en: "wonder", ja: "～だろうかと思う", level: "A" },
+        { id: 292, en: "guest", ja: "ゲスト", level: "A" },
+        { id: 293, en: "win", ja: "勝つ", level: "A" },
+        { id: 294, en: "cousin", ja: "いとこ", level: "A" },
+        { id: 295, en: "local", ja: "地元の", level: "A" },
+        { id: 296, en: "angry", ja: "怒った", level: "A" },
+        { id: 297, en: "meaning", ja: "意味", level: "A" },
+        { id: 298, en: "raise", ja: "上げる", level: "A" },
+        { id: 299, en: "against", ja: "～に対して", level: "A" },
+        { id: 300, en: "between ～ and …", ja: "～と…の間に", level: "A" },
+        { id: 301, en: "useful", ja: "役立つ", level: "A" },
+        { id: 302, en: "heard", ja: "聞く(hear)の過去形", level: "A" },
+        { id: 303, en: "caught", ja: "捕る(catch)の過去形", level: "A" },
+        { id: 304, en: "arm", ja: "腕", level: "A" },
+        { id: 305, en: "read\nread（過去形）", ja: "読む", level: "A" },
+        { id: 306, en: "threw", ja: "投げる(throw)の過去形", level: "A" },
+        { id: 307, en: "spot", ja: "立場・出番", level: "A" },
+        { id: 308, en: "pay", ja: "支払う", level: "A" },
+        { id: 309, en: "strong", ja: "強い", level: "A" },
+        { id: 310, en: "laugh", ja: "笑う", level: "A" },
+        { id: 311, en: "cry", ja: "泣く", level: "A" },
+        { id: 312, en: "stole", ja: "盗む(steal)の過去形", level: "A" },
+        { id: 313, en: "never", ja: "決して～しない", level: "A" },
+        { id: 314, en: "save", ja: "～を救う", level: "A" },
+        { id: 315, en: "in those days", ja: "当時", level: "A" },
+        { id: 316, en: "speaker", ja: "スピーカー", level: "A" },
+        { id: 317, en: "childhood", ja: "子供時代", level: "A" },
+        { id: 318, en: "somebody", ja: "誰か", level: "A" },
+        { id: 319, en: "block", ja: "街区, ブロック", level: "A" },
+        { id: 320, en: "factory", ja: "工場", level: "A" },
+        { id: 321, en: "lunchtime", ja: "昼食時", level: "A" },
+        { id: 322, en: "paper", ja: "新聞, 紙", level: "A" },
+        { id: 323, en: "basic", ja: "基本的な", level: "A" },
+        { id: 324, en: "taste", ja: "味", level: "A" },
+        { id: 325, en: "bitter", ja: "苦い", level: "A" },
+        { id: 326, en: "tradition", ja: "伝統", level: "A" },
+        { id: 327, en: "dear", ja: "親愛なる", level: "A" },
+        { id: 328, en: "arrive", ja: "着く", level: "A" },
+        { id: 329, en: "airport", ja: "空港", level: "A" },
+        { id: 330, en: "already", ja: "もう・すでに", level: "A" },
+        { id: 331, en: "tonight", ja: "今夜", level: "A" },
+        { id: 332, en: "ever", ja: "これまでに", level: "A" },
+        { id: 333, en: "lake", ja: "湖", level: "A" },
+        { id: 334, en: "by the way", ja: "ところで", level: "A" },
+        { id: 335, en: "a variety of", ja: "いろいろな", level: "A" },
+        { id: 336, en: "interact", ja: "交流する", level: "A" },
+        { id: 337, en: "twice", ja: "2度・2回", level: "A" },
+        { id: 338, en: "climb", ja: "登る", level: "A" },
+        { id: 339, en: "Why don't you ～?", ja: "～したらどうですか。", level: "A" },
+        { id: 340, en: "Shall we ～?", ja: "～しませんか。", level: "A" },
+        { id: 341, en: "Why don't we ～?", ja: "～しませんか。", level: "A" },
+        { id: 342, en: "choose/chose/chosen", ja: "選ぶ", level: "A" },
+        { id: 343, en: "since", ja: "～して以来", level: "A" },
+        { id: 344, en: "human", ja: "人間", level: "A" },
+        { id: 345, en: "century", ja: "100年間 世紀", level: "A" },
+        { id: 346, en: "kill", ja: "殺す", level: "A" },
+        { id: 347, en: "as a result", ja: "結果として", level: "A" },
+        { id: 348, en: "ban", ja: "禁止する", level: "A" },
+        { id: 349, en: "improve", ja: "向上させる", level: "A" },
+        { id: 350, en: "windmill", ja: "風車", level: "A" },
+        { id: 351, en: "shock", ja: "ショック", level: "A" },
+        { id: 352, en: "develop", ja: "開発する", level: "A" },
+        { id: 353, en: "cure", ja: "～を治す", level: "A" },
+        { id: 354, en: "line", ja: "路線", level: "A" },
+        { id: 355, en: "be close to", ja: "～に近い", level: "A" },
+        { id: 356, en: "subway", ja: "地下鉄", level: "A" },
+        { id: 357, en: "tour", ja: "ツアー", level: "A" },
+        { id: 358, en: "differently", ja: "異なって", level: "A" },
+        { id: 359, en: "model", ja: "型", level: "A" },
+        { id: 360, en: "speed", ja: "速さ", level: "A" },
+        { id: 361, en: "international", ja: "国際的な", level: "A" },
+        { id: 362, en: "everything", ja: "全て", level: "A" },
+        { id: 363, en: "imagine", ja: "想像する", level: "A" },
+        { id: 364, en: "float", ja: "浮く", level: "A" },
+        { id: 365, en: "carry out", ja: "実行する", level: "A" },
+        { id: 366, en: "airplane", ja: "飛行機", level: "A" },
+        { id: 367, en: "service", ja: "サービス", level: "A" },
+        { id: 368, en: "program", ja: "番組", level: "A" },
+        { id: 369, en: "launch", ja: "打ち上げる", level: "A" },
+        { id: 370, en: "run into", ja: "衝突する", level: "A" },
+        { id: 371, en: "someday", ja: "いつか", level: "A" },
+        { id: 372, en: "planet", ja: "惑星", level: "A" },
+        { id: 373, en: "spoke\nspoken", ja: "話す(speak)の過去形 ※過去分詞", level: "A" },
+        { id: 374, en: "decide", ja: "決心する", level: "A" },
+        { id: 375, en: "original", ja: "最初の", level: "A" },
+        { id: 376, en: "as soon as", ja: "～するとすぐに", level: "A" },
+        { id: 377, en: "patient", ja: "患者", level: "A" },
+        { id: 378, en: "clinic", ja: "診療所", level: "A" },
+        { id: 379, en: "build", ja: "建設する", level: "A" },
+        { id: 380, en: "network", ja: "ネットワーク", level: "A" },
+        { id: 381, en: "dirty", ja: "汚い", level: "A" },
+        { id: 382, en: "lift up", ja: "持ち上げる", level: "A" },
+        { id: 383, en: "large", ja: "大きい", level: "A" },
+        { id: 384, en: "challenge", ja: "挑戦", level: "A" },
+        { id: 385, en: "hurt", ja: "傷つける", level: "A" },
+        { id: 386, en: "weapon", ja: "武器", level: "A" },
+        { id: 387, en: "meal", ja: "食事", level: "A" },
+        { id: 388, en: "serve", ja: "提供する", level: "A" },
+        { id: 389, en: "freshly", ja: "最近", level: "A" },
+        { id: 390, en: "gold", ja: "金の", level: "A" },
+        { id: 391, en: "cooperation", ja: "協力", level: "A" },
+        { id: 392, en: "equipment", ja: "器材・備品", level: "A" },
+        { id: 393, en: "hotel", ja: "ホテル", level: "A" },
+        { id: 394, en: "pool", ja: "プール", level: "A" },
+        { id: 395, en: "victory", ja: "勝利", level: "A" },
+        { id: 396, en: "take turns", ja: "交代で行う", level: "A" },
+        { id: 397, en: "voice", ja: "声", level: "A" },
+        { id: 398, en: "valuable", ja: "貴重な", level: "A" },
+        { id: 399, en: "hair", ja: "髪", level: "A" },
+        { id: 400, en: "tail", ja: "尾", level: "A" },
+        { id: 401, en: "chose\nchosen", ja: "選ぶ(choose)の過去形 ※過去分詞", level: "A" },
+        { id: 402, en: "speech", ja: "スピーチ", level: "A" },
+        { id: 403, en: "wish", ja: "～を強く望む", level: "A" },
+        { id: 404, en: "rich", ja: "金持ちの", level: "A" },
+        { id: 405, en: "million", ja: "100万", level: "A" },
+        { id: 406, en: "labor", ja: "労働", level: "A" },
+        { id: 407, en: "opinion", ja: "意見", level: "A" },
+        { id: 408, en: "agree with", ja: "賛成する", level: "A" },
+        { id: 409, en: "both ... and ...", ja: "～も…も両方とも", level: "A" },
+        { id: 410, en: "marry", ja: "結婚する", level: "A" },
+        { id: 411, en: "cooperate", ja: "協力する", level: "A" },
+        { id: 412, en: "wife", ja: "妻", level: "A" },
+        { id: 413, en: "certainly", ja: "確かに", level: "A" },
+        { id: 414, en: "not ... either", ja: "～もまた…ない", level: "A" },
+        { id: 415, en: "originally", ja: "もともとは", level: "A" },
+        { id: 416, en: "refuse", ja: "断る", level: "A" },
+        { id: 417, en: "scene", ja: "場面", level: "A" },
+        { id: 418, en: "accident", ja: "事故", level: "A" },
+        { id: 419, en: "reality", ja: "現実", level: "A" },
+        { id: 420, en: "carry on with", ja: "がんばり通す", level: "A" },
+        { id: 421, en: "sitting", ja: "現職の", level: "A" },
+        { id: 422, en: "president", ja: "大統領", level: "A" },
+        { id: 423, en: "realize", ja: "実感する", level: "A" },
+        { id: 424, en: "importance", ja: "重要性", level: "A" },
+        { id: 425, en: "repeat", ja: "繰り返す", level: "A" },
+        { id: 426, en: "instead", ja: "その代わりに", level: "A" },
+        { id: 427, en: "any", ja: "〔否定文で〕 1つも、1人も", level: "B" },
+        { id: 428, en: "me", ja: "私を［に］", level: "B" },
+        { id: 429, en: "cool", ja: "かっこいい", level: "B" },
+        { id: 430, en: "one", ja: "1つのもの 1人の人", level: "B" },
+        { id: 431, en: "very", ja: "とても 非常に", level: "B" },
+        { id: 432, en: "well", ja: "じょうずに", level: "B" },
+        { id: 433, en: "sure", ja: "もちろん", level: "B" },
+        { id: 434, en: "swim", ja: "泳ぐ", level: "B" },
+        { id: 435, en: "next", ja: "次の", level: "B" },
+        { id: 436, en: "lesson", ja: "授業", level: "B" },
+        { id: 437, en: "more", ja: "もっと多くの", level: "B" },
+        { id: 438, en: "good", ja: "うまい", level: "B" },
+        { id: 439, en: "song", ja: "歌", level: "B" },
+        { id: 440, en: "rice", ja: "米 ごはん", level: "B" },
+        { id: 441, en: "food", ja: "食品 食べ物", level: "B" },
+        { id: 442, en: "action", ja: "動作", level: "B" },
+        { id: 443, en: "season", ja: "季節", level: "B" },
+        { id: 444, en: "movie", ja: "映画", level: "B" },
+        { id: 445, en: "country", ja: "国", level: "B" },
+        { id: 446, en: "name", ja: "名前", level: "B" },
+        { id: 447, en: "meat", ja: "肉", level: "B" },
+        { id: 448, en: "air", ja: "空気", level: "B" },
+        { id: 449, en: "bike", ja: "自転車", level: "B" },
+        { id: 450, en: "bread", ja: "パン", level: "B" },
+        { id: 451, en: "festival", ja: "祭り", level: "B" },
+        { id: 452, en: "weather", ja: "天気", level: "B" },
+        { id: 453, en: "a member of", ja: "～のメンバー", level: "B" },
+        { id: 454, en: "club", ja: "部", level: "B" },
+        { id: 455, en: "school", ja: "学校", level: "B" },
+        { id: 456, en: "point", ja: "要素・部分", level: "B" },
+        { id: 457, en: "bring", ja: "持ってくる", level: "B" },
+        { id: 458, en: "classmate", ja: "同級生", level: "B" },
+        { id: 459, en: "compete", ja: "競争する", level: "B" },
+        { id: 460, en: "draw", ja: "描く", level: "B" },
+        { id: 461, en: "stand", ja: "立っている", level: "B" },
+        { id: 462, en: "which", ja: "どちらの", level: "B" },
+        { id: 463, en: "special", ja: "特別", level: "B" },
+        { id: 464, en: "early", ja: "早く", level: "B" },
+        { id: 465, en: "whose", ja: "誰の", level: "B" },
+        { id: 466, en: "store", ja: "店", level: "B" },
+        { id: 467, en: "yellow", ja: "黄色", level: "B" },
+        { id: 468, en: "fact", ja: "事実", level: "B" },
+        { id: 469, en: "very", ja: "とても", level: "B" },
+        { id: 470, en: "culture", ja: "文化", level: "B" },
+        { id: 471, en: "sign", ja: "看板・標識", level: "B" },
+        { id: 472, en: "guess", ja: "推測する", level: "B" },
+        { id: 473, en: "idea", ja: "考え", level: "B" },
+        { id: 474, en: "should", ja: "～するべき", level: "B" },
+        { id: 475, en: "clothes", ja: "衣服", level: "B" },
+        { id: 476, en: "rest", ja: "休憩", level: "B" },
+        { id: 477, en: "cross", ja: "横断する", level: "B" },
+        { id: 478, en: "tree", ja: "木", level: "B" },
+        { id: 479, en: "brush", ja: "磨く", level: "B" },
+        { id: 480, en: "until", ja: "～まで", level: "B" },
+        { id: 481, en: "communication", ja: "コミュニケーション", level: "B" },
+        { id: 482, en: "without", ja: "～のない ～なしで", level: "B" },
+        { id: 483, en: "visitor", ja: "来訪客 観光客", level: "B" },
+        { id: 484, en: "ask", ja: "たずねる", level: "B" },
+        { id: 485, en: "phone", ja: "電話", level: "B" },
+        { id: 486, en: "open", ja: "開ける", level: "B" },
+        { id: 487, en: "introduce", ja: "導入する", level: "B" },
+        { id: 488, en: "find", ja: "見つける", level: "B" },
+        { id: 489, en: "late", ja: "遅く", level: "B" },
+        { id: 490, en: "attack", ja: "襲う", level: "B" },
+        { id: 491, en: "opponent", ja: "（対戦）相手", level: "B" },
+        { id: 492, en: "run away", ja: "逃げ出す", level: "B" },
+        { id: 493, en: "soon", ja: "すぐに", level: "B" },
+        { id: 494, en: "tiger", ja: "トラ", level: "B" },
+        { id: 495, en: "better", ja: "よりよい", level: "B" },
+        { id: 496, en: "set out", ja: "きちんと述べる", level: "B" },
+        { id: 497, en: "newspaper", ja: "新聞", level: "B" },
+        { id: 498, en: "closet", ja: "クローゼット", level: "B" },
+        { id: 499, en: "throw", ja: "投げる", level: "B" },
+        { id: 500, en: "excellent", ja: "非常にすぐれた すばらしい", level: "B" },
+        { id: 501, en: "college", ja: "大学", level: "B" },
+        { id: 502, en: "around", ja: "～のあちこちを", level: "B" },
+        { id: 503, en: "report", ja: "報告書", level: "B" },
+        { id: 504, en: "ton", ja: "トン", level: "B" },
+        { id: 505, en: "large", ja: "大きな", level: "B" },
+        { id: 506, en: "chair", ja: "いす", level: "B" },
+        { id: 507, en: "production", ja: "生産", level: "B" },
+        { id: 508, en: "small", ja: "小さい", level: "B" },
+        { id: 509, en: "flower", ja: "花", level: "B" },
+        { id: 510, en: "shop", ja: "店", level: "B" },
+        { id: 511, en: "hill", ja: "丘", level: "B" },
+        { id: 512, en: "sick", ja: "調子が悪い", level: "B" },
+        { id: 513, en: "take care of", ja: "～の世話をする", level: "B" },
+        { id: 514, en: "fever", ja: "熱", level: "B" },
+        { id: 515, en: "toothache", ja: "歯痛", level: "B" },
+        { id: 516, en: "through", ja: "～を通して", level: "B" },
+        { id: 517, en: "owner", ja: "所有者", level: "B" },
+        { id: 518, en: "message", ja: "メッセージ", level: "B" },
+        { id: 519, en: "corner", ja: "かど", level: "B" },
+        { id: 520, en: "in need", ja: "必要としている", level: "B" },
+        { id: 521, en: "touch", ja: "ふれる", level: "B" },
+        { id: 522, en: "lead", ja: "導く", level: "B" },
+        { id: 523, en: "be late for", ja: "～に遅れて", level: "B" },
+        { id: 524, en: "worried", ja: "心配した", level: "B" },
+        { id: 525, en: "man", ja: "男の人", level: "B" },
+        { id: 526, en: "staff", ja: "従業員", level: "B" },
+        { id: 527, en: "notice", ja: "気づく", level: "B" },
+        { id: 528, en: "wear", ja: "着ている", level: "B" },
+        { id: 529, en: "energy", ja: "エネルギー", level: "B" },
+        { id: 530, en: "choose", ja: "選ぶ", level: "B" },
+        { id: 531, en: "theme", ja: "テーマ", level: "B" },
+        { id: 532, en: "temperature", ja: "温度", level: "B" },
+        { id: 533, en: "cause", ja: "～を引き起こす", level: "B" },
+        { id: 534, en: "problem", ja: "問題", level: "B" },
+        { id: 535, en: "elementary school", ja: "小学校", level: "B" },
+        { id: 536, en: "melt", ja: "溶ける", level: "B" },
+        { id: 537, en: "affect", ja: "影響を与える", level: "B" },
+        { id: 538, en: "plant", ja: "植物", level: "B" },
+        { id: 539, en: "explain", ja: "説明する", level: "B" },
+        { id: 540, en: "design", ja: "設計", level: "B" },
+        { id: 541, en: "plastic", ja: "プラスチック", level: "B" },
+        { id: 542, en: "tank", ja: "タンク", level: "B" },
+        { id: 543, en: "liter", ja: "リットル", level: "B" },
+        { id: 544, en: "slot", ja: "投入口", level: "B" },
+        { id: 545, en: "amazing", ja: "驚くべき", level: "B" },
+        { id: 546, en: "some ～ others …", ja: "～もあれば…もある", level: "B" },
+        { id: 547, en: "chick", ja: "ひな", level: "B" },
+        { id: 548, en: "fast", ja: "絶食する", level: "B" },
+        { id: 549, en: "huge", ja: "巨大な", level: "B" },
+        { id: 550, en: "shopkeeper", ja: "店主", level: "B" },
+        { id: 551, en: "travel", ja: "旅行する", level: "B" },
+        { id: 552, en: "tough", ja: "つらい", level: "B" },
+        { id: 553, en: "number", ja: "数", level: "B" },
+        { id: 554, en: "seed", ja: "種", level: "B" },
+        { id: 555, en: "carve", ja: "刻む", level: "B" },
+        { id: 556, en: "party", ja: "パーティー", level: "B" },
+        { id: 557, en: "novel", ja: "小説", level: "B" },
+        { id: 558, en: "similar", ja: "同じような", level: "B" },
+        { id: 559, en: "custom", ja: "習慣", level: "B" },
+        { id: 560, en: "one of", ja: "～のひとつ", level: "B" },
+        { id: 561, en: "among", ja: "～の間で", level: "B" },
+        { id: 562, en: "sightseeing", ja: "観光", level: "B" },
+        { id: 563, en: "attractive", ja: "魅力的な", level: "B" },
+        { id: 564, en: "sight", ja: "景色", level: "B" },
+        { id: 565, en: "beam", ja: "光線", level: "B" },
+        { id: 566, en: "rock", ja: "岩", level: "B" },
+        { id: 567, en: "trail", ja: "小道", level: "B" },
+        { id: 568, en: "gift", ja: "贈り物", level: "B" },
+        { id: 569, en: "record", ja: "記録する", level: "B" },
+        { id: 570, en: "support", ja: "～を支持する", level: "B" },
+        { id: 571, en: "participation", ja: "参加", level: "B" },
+        { id: 572, en: "runner", ja: "ランナー 走者", level: "B" },
+        { id: 573, en: "throughout", ja: "～の間中ずっと", level: "B" },
+        { id: 574, en: "happen", ja: "起こる", level: "B" },
+        { id: 575, en: "professor", ja: "教授", level: "B" },
+        { id: 576, en: "experiment", ja: "実験", level: "B" },
+        { id: 577, en: "dollar", ja: "ドル", level: "B" },
+        { id: 578, en: "animated", ja: "アニメの", level: "B" },
+        { id: 579, en: "collection", ja: "収集物", level: "B" },
+        { id: 580, en: "praise", ja: "ほめる", level: "B" },
+        { id: 581, en: "lion", ja: "ライオン", level: "B" },
+        { id: 582, en: "military", ja: "軍の", level: "B" },
+        { id: 583, en: "fire", ja: "火・火災", level: "B" },
+        { id: 584, en: "effect", ja: "影響", level: "B" },
+        { id: 585, en: "produce", ja: "創作する", level: "B" },
+        { id: 586, en: "skillful", ja: "熟練した", level: "B" },
+        { id: 587, en: "connect", ja: "つなぐ", level: "B" },
+        { id: 588, en: "positive", ja: "前向きな", level: "B" },
+        { id: 589, en: "decision", ja: "決断", level: "B" },
+        { id: 590, en: "release", ja: "公開する", level: "B" },
+        { id: 591, en: "god", ja: "神", level: "B" },
+        { id: 592, en: "cheap", ja: "安い", level: "B" },
+        { id: 593, en: "skirt", ja: "スカート", level: "B" },
+        { id: 594, en: "dark", ja: "暗い", level: "B" },
+        { id: 595, en: "foreign", ja: "外国の", level: "B" },
+        { id: 596, en: "final", ja: "最終的な", level: "B" },
+        { id: 597, en: "competition", ja: "協議会", level: "B" },
+        { id: 598, en: "nervous", ja: "緊張して", level: "B" },
+        { id: 599, en: "myself", ja: "私自身", level: "B" },
+        { id: 600, en: "both", ja: "両方", level: "B" },
+        { id: 601, en: "prepare", ja: "準備する", level: "B" },
+        { id: 602, en: "expression", ja: "表現", level: "B" },
+        { id: 603, en: "team", ja: "チーム", level: "B" },
+        { id: 604, en: "captain", ja: "キャプテン", level: "B" },
+        { id: 605, en: "field", ja: "競技場", level: "B" },
+        { id: 606, en: "happily", ja: "喜んで", level: "B" },
+        { id: 607, en: "cover", ja: "覆う", level: "B" },
+        { id: 608, en: "join", ja: "参加する", level: "B" },
+        { id: 609, en: "note", ja: "メモ", level: "B" },
+        { id: 610, en: "career", ja: "経歴", level: "B" },
+        { id: 611, en: "center", ja: "センター", level: "B" },
+        { id: 612, en: "teammate", ja: "チームメイト", level: "B" },
+        { id: 613, en: "screen", ja: "スクリーン", level: "B" },
+        { id: 614, en: "cheer", ja: "声援", level: "B" },
+        { id: 615, en: "just", ja: "ちょうど", level: "B" },
+        { id: 616, en: "newsstand", ja: "新聞売店", level: "B" },
+        { id: 617, en: "sour", ja: "酸っぱい", level: "B" },
+        { id: 618, en: "salty", ja: "しょっぱい", level: "B" },
+        { id: 619, en: "diary", ja: "日記", level: "B" },
+        { id: 620, en: "warmly", ja: "心から", level: "B" },
+        { id: 621, en: "as for", ja: "～についていえば", level: "B" },
+        { id: 622, en: "besides", ja: "～に加えて", level: "B" },
+        { id: 623, en: "exactly", ja: "正確に", level: "B" },
+        { id: 624, en: "together", ja: "一緒に", level: "B" },
+        { id: 625, en: "topic", ja: "話題", level: "B" },
+        { id: 626, en: "lead", ja: "鉛", level: "B" },
+        { id: 627, en: "deer", ja: "シカ", level: "B" },
+        { id: 628, en: "pollute", ja: "汚染する", level: "B" },
+        { id: 629, en: "since then", ja: "それ以来", level: "B" },
+        { id: 630, en: "electric", ja: "電気の", level: "B" },
+        { id: 631, en: "get off", ja: "降りる", level: "B" },
+        { id: 632, en: "space", ja: "宇宙", level: "B" },
+        { id: 633, en: "breath", ja: "呼吸", level: "B" },
+        { id: 634, en: "safety", ja: "安全", level: "B" },
+        { id: 635, en: "squeeze", ja: "絞り出す", level: "B" },
+        { id: 636, en: "include", ja: "～を含む", level: "B" },
+        { id: 637, en: "satellite", ja: "人工衛星", level: "B" },
+        { id: 638, en: "debris", ja: "破片", level: "B" },
+        { id: 639, en: "seriously", ja: "真剣に", level: "B" },
+        { id: 640, en: "sweep", ja: "掃除する", level: "B" },
+        { id: 641, en: "simple", ja: "単純な", level: "B" },
+        { id: 642, en: "nature", ja: "自然", level: "B" },
+        { id: 643, en: "attitude", ja: "態度", level: "B" },
+        { id: 644, en: "jacket", ja: "上着", level: "B" },
+        { id: 645, en: "shovel", ja: "シャベル", level: "B" },
+        { id: 646, en: "society", ja: "社会", level: "B" },
+        { id: 647, en: "athlete", ja: "運動選手", level: "B" },
+        { id: 648, en: "physically", ja: "肉体的に 身体的に", level: "B" },
+        { id: 649, en: "champion", ja: "チャンピオン", level: "B" },
+        { id: 650, en: "alternate", ja: "控え", level: "B" },
+        { id: 651, en: "check", ja: "確認する", level: "B" },
+        { id: 652, en: "tether", ja: "ロープ", level: "B" },
+        { id: 653, en: "novelist", ja: "小説家", level: "B" },
+        { id: 654, en: "priority", ja: "優先事項", level: "B" },
+        { id: 655, en: "unique", ja: "特有の", level: "B" },
+        { id: 656, en: "discussion", ja: "討論", level: "B" },
+        { id: 657, en: "be related to", ja: "～と関係がある", level: "B" },
+        { id: 658, en: "hobby", ja: "趣味", level: "B" },
+        { id: 659, en: "the other day", ja: "先日", level: "B" },
+        { id: 660, en: "university", ja: "大学", level: "B" },
+        { id: 661, en: "private", ja: "私的な", level: "B" },
+        { id: 662, en: "lose", ja: "失う", level: "B" },
+        { id: 663, en: "terrible", ja: "ひどい", level: "B" },
+        { id: 664, en: "bring up", ja: "育てる", level: "B" },
+        { id: 665, en: "death", ja: "死", level: "B" },
+        { id: 666, en: "pray", ja: "祈る", level: "B" },
+        { id: 667, en: "trumpet", ja: "トランペット", level: "C" },
+        { id: 668, en: "anything", ja: "〔疑問文で〕 何か", level: "C" },
+        { id: 669, en: "look at", ja: "～を見る", level: "C" },
+        { id: 670, en: "from", ja: "～からの ～出身の", level: "C" },
+        { id: 671, en: "too", ja: "～も（また）", level: "C" },
+        { id: 672, en: "sometime", ja: "いつか", level: "C" },
+        { id: 673, en: "fast", ja: "速く", level: "C" },
+        { id: 674, en: "need", ja: "必要とする", level: "C" },
+        { id: 675, en: "player", ja: "選手、演奏者", level: "C" },
+        { id: 676, en: "practice", ja: "練習 練習する", level: "C" },
+        { id: 677, en: "today", ja: "本日、今日", level: "C" },
+        { id: 678, en: "moment", ja: "わずかの間", level: "C" },
+        { id: 679, en: "free", ja: "自由な", level: "C" },
+        { id: 680, en: "musician", ja: "音楽家", level: "C" },
+        { id: 681, en: "basketball", ja: "バスケットボール", level: "C" },
+        { id: 682, en: "animal", ja: "動物", level: "C" },
+        { id: 683, en: "doctor", ja: "医者", level: "C" },
+        { id: 684, en: "strawberry", ja: "イチゴ", level: "C" },
+        { id: 685, en: "water", ja: "水", level: "C" },
+        { id: 686, en: "class", ja: "授業", level: "C" },
+        { id: 687, en: "cute", ja: "かわいい", level: "C" },
+        { id: 688, en: "breakfast", ja: "朝食", level: "C" },
+        { id: 689, en: "star", ja: "星", level: "C" },
+        { id: 690, en: "cloudy", ja: "曇った", level: "C" },
+        { id: 691, en: "activity", ja: "活動", level: "C" },
+        { id: 692, en: "recess", ja: "休み 休憩", level: "C" },
+        { id: 693, en: "period", ja: "（学校の） 時限", level: "C" },
+        { id: 694, en: "bench", ja: "ベンチ", level: "C" },
+        { id: 695, en: "different", ja: "異なった いろいろな", level: "C" },
+        { id: 696, en: "chorus", ja: "合唱 コーラス", level: "C" },
+        { id: 697, en: "contest", ja: "競技", level: "C" },
+        { id: 698, en: "prize", ja: "賞", level: "C" },
+        { id: 699, en: "behind", ja: "～の後ろの（に）", level: "C" },
+        { id: 700, en: "case", ja: "容器", level: "C" },
+        { id: 701, en: "feed", ja: "えさをやる", level: "C" },
+        { id: 702, en: "recommend", ja: "～をすすめる", level: "C" },
+        { id: 703, en: "hungry", ja: "空腹な", level: "C" },
+        { id: 704, en: "kind", ja: "親切な やさしい", level: "C" },
+        { id: 705, en: "sea", ja: "海", level: "C" },
+        { id: 706, en: "full", ja: "いっぱいの", level: "C" },
+        { id: 707, en: "mine", ja: "私のもの", level: "C" },
+        { id: 708, en: "these", ja: "これらの", level: "C" },
+        { id: 709, en: "bake", ja: "焼く", level: "C" },
+        { id: 710, en: "just", ja: "まさに", level: "C" },
+        { id: 711, en: "praise", ja: "賞賛する", level: "C" },
+        { id: 712, en: "dinner", ja: "夕食", level: "C" },
+        { id: 713, en: "story", ja: "話し", level: "C" },
+        { id: 714, en: "wonderful", ja: "すばらしい", level: "C" },
+        { id: 715, en: "floor", ja: "階", level: "C" },
+        { id: 716, en: "symbol", ja: "記号・象徴", level: "C" },
+        { id: 717, en: "souvenir", ja: "おみやげ", level: "C" },
+        { id: 718, en: "Let me see.", ja: "ええと。", level: "C" },
+        { id: 719, en: "place", ja: "場所", level: "C" },
+        { id: 720, en: "area", ja: "区域・地域", level: "C" },
+        { id: 721, en: "driver", ja: "運転手", level: "C" },
+        { id: 722, en: "ruler", ja: "定規", level: "C" },
+        { id: 723, en: "however", ja: "しかしながら", level: "C" },
+        { id: 724, en: "confidence", ja: "自信", level: "C" },
+        { id: 725, en: "committee", ja: "委員会", level: "C" },
+        { id: 726, en: "solution", ja: "解決策", level: "C" },
+        { id: 727, en: "universal", ja: "世界共通の", level: "C" },
+        { id: 728, en: "hard", ja: "一生懸命に", level: "C" },
+        { id: 729, en: "such", ja: "そのような", level: "C" },
+        { id: 730, en: "stay", ja: "滞在する", level: "C" },
+        { id: 731, en: "follow", ja: "ついてくる", level: "C" },
+        { id: 732, en: "some", ja: "いくつかの", level: "C" },
+        { id: 733, en: "behave", ja: "ふるまう", level: "C" },
+        { id: 734, en: "stand for", ja: "～を表す 意味する", level: "C" },
+        { id: 735, en: "sustainable", ja: "持続可能な", level: "C" },
+        { id: 736, en: "development", ja: "開発", level: "C" },
+        { id: 737, en: "agenda", ja: "問題・課題", level: "C" },
+        { id: 738, en: "fashion", ja: "流行", level: "C" },
+        { id: 739, en: "anymore", ja: "［否定文・疑問文で］今ではもう～でない", level: "C" },
+        { id: 740, en: "recycle", ja: "再利用する", level: "C" },
+        { id: 741, en: "ball", ja: "ボール", level: "C" },
+        { id: 742, en: "town", ja: "町", level: "C" },
+        { id: 743, en: "product", ja: "製品", level: "C" },
+        { id: 744, en: "may", ja: "～してもよい", level: "C" },
+        { id: 745, en: "according to", ja: "～によると", level: "C" },
+        { id: 746, en: "total", ja: "総量・総計", level: "C" },
+        { id: 747, en: "consumption", ja: "消費", level: "C" },
+        { id: 748, en: "used", ja: "中古の", level: "C" },
+        { id: 749, en: "supermarket", ja: "スーパーマーケット", level: "C" },
+        { id: 750, en: "pale", ja: "青ざめた", level: "C" },
+        { id: 751, en: "yourself", ja: "あなた自身", level: "C" },
+        { id: 752, en: "thirsty", ja: "のどが渇いた", level: "C" },
+        { id: 753, en: "in", ja: "～の中に", level: "C" },
+        { id: 754, en: "door", ja: "ドア", level: "C" },
+        { id: 755, en: "assistance", ja: "援助、支援", level: "C" },
+        { id: 756, en: "visually", ja: "視覚的に", level: "C" },
+        { id: 757, en: "impaired", ja: "障がいのある", level: "C" },
+        { id: 758, en: "obstacle", ja: "障害物", level: "C" },
+        { id: 759, en: "training", ja: "訓練", level: "C" },
+        { id: 760, en: "although", ja: "～だけれども", level: "C" },
+        { id: 761, en: "Keep in touch!", ja: "またね", level: "C" },
+        { id: 762, en: "communicate", ja: "コミュニケーションをとる", level: "C" },
+        { id: 763, en: "source", ja: "源", level: "C" },
+        { id: 764, en: "research", ja: "調査 研究", level: "C" },
+        { id: 765, en: "graph", ja: "グラフ", level: "C" },
+        { id: 766, en: "global", ja: "世界的な", level: "C" },
+        { id: 767, en: "find out", ja: "解明する", level: "C" },
+        { id: 768, en: "level", ja: "水準", level: "C" },
+        { id: 769, en: "trap", ja: "閉じ込める", level: "C" },
+        { id: 770, en: "sharply", ja: "急激に", level: "C" },
+        { id: 771, en: "decrease", ja: "減る", level: "C" },
+        { id: 772, en: "emission", ja: "排出物", level: "C" },
+        { id: 773, en: "chocolate", ja: "チョコレート", level: "C" },
+        { id: 774, en: "pot", ja: "つぼ", level: "C" },
+        { id: 775, en: "kilogram", ja: "キログラム", level: "C" },
+        { id: 776, en: "machine", ja: "機械", level: "C" },
+        { id: 777, en: "coin", ja: "コイン", level: "C" },
+        { id: 778, en: "waterproof", ja: "防水の", level: "C" },
+        { id: 779, en: "almost", ja: "ほとんど", level: "C" },
+        { id: 780, en: "height", ja: "高さ・身長", level: "C" },
+        { id: 781, en: "ancient", ja: "古代の", level: "C" },
+        { id: 782, en: "scientist", ja: "科学者", level: "C" },
+        { id: 783, en: "bookstore", ja: "書店", level: "C" },
+        { id: 784, en: "nursery", ja: "保育園", level: "C" },
+        { id: 785, en: "stockroom", ja: "商品倉庫", level: "C" },
+        { id: 786, en: "teamwork", ja: "チームワーク", level: "C" },
+        { id: 787, en: "celebrate", ja: "祝う", level: "C" },
+        { id: 788, en: "candle", ja: "ろうそく", level: "C" },
+        { id: 789, en: "spirit", ja: "霊", level: "C" },
+        { id: 790, en: "evil", ja: "邪悪な", level: "C" },
+        { id: 791, en: "turnip", ja: "カブ", level: "C" },
+        { id: 792, en: "lantern", ja: "ちょうちん", level: "C" },
+        { id: 793, en: "ancestor", ja: "先祖", level: "C" },
+        { id: 794, en: "ticket", ja: "チケット", level: "C" },
+        { id: 795, en: "canyon", ja: "渓谷", level: "C" },
+        { id: 796, en: "make it", ja: "やりとげる", level: "C" },
+        { id: 797, en: "guidebook", ja: "ガイドブック", level: "C" },
+        { id: 798, en: "many kinds of", ja: "たくさんの種類の～", level: "C" },
+        { id: 799, en: "squirrel", ja: "リス", level: "C" },
+        { id: 800, en: "photographer", ja: "写真家", level: "C" },
+        { id: 801, en: "fascinating", ja: "魅惑的な", level: "C" },
+        { id: 802, en: "even more", ja: "いっそう", level: "C" },
+        { id: 803, en: "mysterious", ja: "神秘的な", level: "C" },
+        { id: 804, en: "might", ja: "～かもしれない", level: "C" },
+        { id: 805, en: "card", ja: "カード", level: "C" },
+        { id: 806, en: "pianist", ja: "ピアニスト", level: "C" },
+        { id: 807, en: "charity", ja: "チャリティー", level: "C" },
+        { id: 808, en: "deliver", ja: "届ける", level: "C" },
+        { id: 809, en: "wisely", ja: "賢明に", level: "C" },
+        { id: 810, en: "collect", ja: "集める", level: "C" },
+        { id: 811, en: "disaster", ja: "災害", level: "C" },
+        { id: 812, en: "donate", ja: "寄付する", level: "C" },
+        { id: 813, en: "result", ja: "結果", level: "C" },
+        { id: 814, en: "else", ja: "他の（に）", level: "C" },
+        { id: 815, en: "boom", ja: "ブーム", level: "C" },
+        { id: 816, en: "insect", ja: "昆虫", level: "C" },
+        { id: 817, en: "sketch", ja: "写生する", level: "C" },
+        { id: 818, en: "talent", ja: "才能", level: "C" },
+        { id: 819, en: "dream of", ja: "～を夢見る", level: "C" },
+        { id: 820, en: "survive", ja: "生き延びる", level: "C" },
+        { id: 821, en: "worry about", ja: "～のことを心配する", level: "C" },
+        { id: 822, en: "terror", ja: "恐怖", level: "C" },
+        { id: 823, en: "character", ja: "登場人物", level: "C" },
+        { id: 824, en: "robot", ja: "ロボット", level: "C" },
+        { id: 825, en: "young", ja: "若い", level: "C" },
+        { id: 826, en: "version", ja: "版・バージョン", level: "C" },
+        { id: 827, en: "attract", ja: "魅了する", level: "C" },
+        { id: 828, en: "animation", ja: "アニメーション", level: "C" },
+        { id: 829, en: "influence", ja: "影響", level: "C" },
+        { id: 830, en: "performer", ja: "演者", level: "C" },
+        { id: 831, en: "stage", ja: "ステージ", level: "C" },
+        { id: 832, en: "round", ja: "丸い", level: "C" },
+        { id: 833, en: "share", ja: "共有する", level: "C" },
+        { id: 834, en: "insulting", ja: "侮辱的な", level: "C" },
+        { id: 835, en: "exam", ja: "試験", level: "C" },
+        { id: 836, en: "thumb", ja: "親指", level: "C" },
+        { id: 837, en: "interpreter", ja: "通訳者", level: "C" },
+        { id: 838, en: "tasty", ja: "おいしい", level: "C" },
+        { id: 839, en: "step", ja: "一歩踏み出す", level: "C" },
+        { id: 840, en: "signal", ja: "合図する", level: "C" },
+        { id: 841, en: "lip", ja: "唇", level: "C" },
+        { id: 842, en: "toward", ja: "～のほうへ", level: "C" },
+        { id: 843, en: "umpire", ja: "審判", level: "C" },
+        { id: 844, en: "walk off", ja: "立ち去る", level: "C" },
+        { id: 845, en: "discuss", ja: "～について話し合う", level: "C" },
+        { id: 846, en: "joy", ja: "嬉しさ", level: "C" },
+        { id: 847, en: "silent", ja: "言葉を発さない", level: "C" },
+        { id: 848, en: "shoelace", ja: "靴ひも", level: "C" },
+        { id: 849, en: "cuisine", ja: "料理（法）", level: "C" },
+        { id: 850, en: "discover", ja: "発見する", level: "C" },
+        { id: 851, en: "pick ～ up", ja: "～を迎えに行く", level: "C" },
+        { id: 852, en: "fireplace", ja: "暖炉", level: "C" },
+        { id: 853, en: "list", ja: "リスト", level: "C" },
+        { id: 854, en: "receive", ja: "受け取る", level: "C" },
+        { id: 855, en: "concert", ja: "コンサート", level: "C" },
+        { id: 856, en: "eagle", ja: "ワシ", level: "C" },
+        { id: 857, en: "bullet", ja: "銃弾", level: "C" },
+        { id: 858, en: "hunt", ja: "狩る", level: "C" },
+        { id: 859, en: "shoot", ja: "撃つ", level: "C" },
+        { id: 860, en: "poisonous", ja: "有毒な", level: "C" },
+        { id: 861, en: "wildlife", ja: "野生動物", level: "C" },
+        { id: 862, en: "wetland", ja: "湿地帯", level: "C" },
+        { id: 863, en: "activity", ja: "活動", level: "C" },
+        { id: 864, en: "situation", ja: "事態・状況", level: "C" },
+        { id: 865, en: "addition", ja: "追加すること", level: "C" },
+        { id: 866, en: "tourism", ja: "観光事業", level: "C" },
+        { id: 867, en: "gravity", ja: "重力", level: "C" },
+        { id: 868, en: "spaceplane", ja: "宇宙飛行機", level: "C" },
+        { id: 869, en: "guarantee", ja: "保証する", level: "C" },
+        { id: 870, en: "comfort", ja: "快適さ", level: "C" },
+        { id: 871, en: "contact", ja: "連絡する", level: "C" },
+        { id: 872, en: "bubble", ja: "泡", level: "C" },
+        { id: 873, en: "collaboration", ja: "協力", level: "C" },
+        { id: 874, en: "forecast", ja: "予報", level: "C" },
+        { id: 875, en: "waste", ja: "廃棄物", level: "C" },
+        { id: 876, en: "countless", ja: "無数の", level: "C" },
+        { id: 877, en: "operation", ja: "稼働", level: "C" },
+        { id: 878, en: "damage", ja: "損害を与える", level: "C" },
+        { id: 879, en: "light up", ja: "照らす", level: "C" },
+        { id: 880, en: "supply", ja: "供給", level: "C" },
+        { id: 881, en: "repair", ja: "修理する", level: "C" },
+        { id: 882, en: "canal", ja: "用水路", level: "C" },
+        { id: 883, en: "terrorist", ja: "テロリスト", level: "C" },
+        { id: 884, en: "force", ja: "武力", level: "C" },
+        { id: 885, en: "control", ja: "支配する", level: "C" },
+        { id: 886, en: "peace", ja: "平和", level: "C" },
+        { id: 887, en: "based on", ja: "～に基づいた", level: "C" },
+        { id: 888, en: "mentally", ja: "精神的に", level: "C" },
+        { id: 889, en: "involve", ja: "影響を与える", level: "C" },
+        { id: 890, en: "concentration", ja: "集中", level: "C" },
+        { id: 891, en: "role", ja: "役割", level: "C" },
+        { id: 892, en: "emotional", ja: "感情面の", level: "C" },
+        { id: 893, en: "beside", ja: "～の横で", level: "C" },
+        { id: 894, en: "determined", ja: "決心した", level: "C" },
+        { id: 895, en: "frequently", ja: "頻繁に", level: "C" },
+        { id: 896, en: "remind", ja: "思い出させる", level: "C" },
+        { id: 897, en: "garbage", ja: "生ごみ", level: "C" },
+        { id: 898, en: "argument", ja: "口論・議論", level: "C" },
+        { id: 899, en: "envious", ja: "うらやましい", level: "C" },
+        { id: 900, en: "ourselves", ja: "私たち自身", level: "C" },
+        { id: 901, en: "general", ja: "一般的な", level: "C" },
+        { id: 902, en: "housework", ja: "家事", level: "C" },
+        { id: 903, en: "researcher", ja: "研究者", level: "C" },
+        { id: 904, en: "overtime", ja: "時間外に", level: "C" },
+        { id: 905, en: "check", ja: "確認する", level: "C" },
+        { id: 906, en: "leftovers", ja: "残り物", level: "C" },
+        { id: 907, en: "rot", ja: "腐る", level: "C" },
+        { id: 908, en: "cloudless", ja: "晴れ渡った", level: "C" },
+        { id: 909, en: "entrust", ja: "委ねる", level: "C" },
         ];
 
         class VocabApp {
             constructor() {
                 this.currentUser = localStorage.getItem('vocab_current_user') || null;
                 this.words = this.loadWords();
-                this.selectedLevel = 'ALL'; // 'ALL', 'A', 'B', 'C'
+                this.selectedLevel = 'A'; // 'A', 'B', 'C', 'ALL'
                 this.selectedOrder = 'sequential'; // 'sequential' (順番) または 'random' (ランダム)
                 this.currentView = this.currentUser ? 'home' : 'login';
+                this.currentSetInfo = null; // { setName: 'A-1', words: [...] }
                 this.quizState = {
                     questions: [],
                     currentIndex: 0,
@@ -160,18 +1047,42 @@
             saveUserData(username, stats) {
                 const data = this.getUsersData();
                 if (!data[username]) {
-                    data[username] = { history: [], totalAnswered: 0, totalCorrect: 0 };
+                    data[username] = { history: [], totalAnswered: 0, totalCorrect: 0, setScores: {} };
                 }
+                if (!data[username].setScores) data[username].setScores = {};
+
                 data[username].history.unshift(stats); // 最新順
                 data[username].totalAnswered += stats.total;
                 data[username].totalCorrect += stats.correct;
+
+                // セット最高得点の記録
+                if (stats.setName) {
+                    const prevMax = data[username].setScores[stats.setName] || 0;
+                    if (stats.correct > prevMax) {
+                        data[username].setScores[stats.setName] = stats.correct;
+                    }
+                }
+
                 localStorage.setItem('vocab_users_data', JSON.stringify(data));
             }
 
             getCurrentUserData() {
-                if (!this.currentUser) return { history: [], totalAnswered: 0, totalCorrect: 0 };
+                if (!this.currentUser) return { history: [], totalAnswered: 0, totalCorrect: 0, setScores: {} };
                 const data = this.getUsersData();
-                return data[this.currentUser] || { history: [], totalAnswered: 0, totalCorrect: 0 };
+                const userData = data[this.currentUser] || { history: [], totalAnswered: 0, totalCorrect: 0, setScores: {} };
+                if (!userData.setScores) userData.setScores = {};
+                return userData;
+            }
+
+            clearCurrentUserData() {
+                if (!this.currentUser) return;
+                const data = this.getUsersData();
+                if (data[this.currentUser]) {
+                    delete data[this.currentUser];
+                    localStorage.setItem('vocab_users_data', JSON.stringify(data));
+                    this.showModal('消去完了', `${this.currentUser} さんの学習記録を削除しました。`, 'check-circle');
+                    this.render();
+                }
             }
 
             login(name) {
@@ -201,28 +1112,22 @@
                 }
             }
 
-            startQuiz(count = 10) {
-                // 選択された難易度で単語をフィルタリング
-                let filtered = this.words;
-                if (this.selectedLevel !== 'ALL') {
-                    filtered = this.words.filter(w => (w.level || 'A') === this.selectedLevel);
-                }
-
-                if (filtered.length < 4) {
-                    this.showModal('注意', `選択した難易度(${this.selectedLevel})の単語が4語未満のためクイズを開始できません。他の難易度を選ぶか単語を追加してください。`, 'alert-triangle');
+            // 指定セットまたはランダム10問でクイズを開始
+            startQuizSet(setName, targetWords) {
+                if (targetWords.length < 4) {
+                    this.showModal('注意', '出題に必要な単語数（選択肢用含め4語以上）が不足しています。', 'alert-triangle');
                     return;
                 }
 
-                // 順序（順番通りかランダムか）の適用
-                let targetWords = [...filtered];
+                this.currentSetInfo = { setName, totalWords: targetWords.length };
+
+                let quizWords = [...targetWords];
                 if (this.selectedOrder === 'random') {
-                    targetWords.sort(() => Math.random() - 0.5);
+                    quizWords.sort(() => Math.random() - 0.5);
                 }
 
-                const selected = targetWords.slice(0, Math.min(count, targetWords.length));
-
-                this.quizState.questions = selected.map(item => {
-                    // 誤答の選択肢を全体（または同レベル）から3つ抽出
+                this.quizState.questions = quizWords.map(item => {
+                    // 誤答の選択肢を全体から3つ抽出
                     const distractors = this.words
                         .filter(w => w.id !== item.id)
                         .sort(() => Math.random() - 0.5)
@@ -380,6 +1285,7 @@
                 const accuracy = Math.round((correct / total) * 100);
                 
                 const stats = {
+                    setName: this.currentSetInfo ? this.currentSetInfo.setName : 'ランダム',
                     date: new Date().toLocaleDateString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
                     total: total,
                     correct: correct,
@@ -406,7 +1312,6 @@
                     if (parts.length >= 2) {
                         const en = parts[0].trim();
                         const ja = parts[1].trim();
-                        // 3列目に難易度(A, B, C)が指定されていれば取得、なければ'A'
                         const level = parts[2] ? parts[2].trim().toUpperCase() : 'A';
                         if (en && ja) {
                             maxId++;
@@ -459,13 +1364,13 @@
                             <div class="w-16 h-16 bg-gradient-to-tr from-indigo-500 to-violet-500 rounded-3xl mx-auto flex items-center justify-center shadow-xl shadow-indigo-500/20 mb-4">
                                 <i data-lucide="book-open" class="w-8 h-8 text-white"></i>
                             </div>
-                            <h1 class="text-2xl font-extrabold text-white">英単語トレーニング</h1>
-                            <p class="text-slate-400 text-sm">名前を入力して学習をスタートしよう！</p>
+                            <h1 class="text-2xl font-extrabold text-white">スぺコン　英和編</h1>
+                            <p class="text-slate-400 text-sm">指示された番号を入力して学習を始めよう！</p>
                         </div>
 
                         <div class="bg-slate-900/60 p-6 rounded-2xl border border-slate-700/60 space-y-4 my-auto">
-                            <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">生徒名・ユーザー名</label>
-                            <input id="login-name-input" type="text" placeholder="例: たろう" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3.5 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition text-base">
+                            <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">番号</label>
+                            <input id="login-name-input" type="text" placeholder="例: " class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3.5 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition text-base">
                             <button onclick="app.login(document.getElementById('login-name-input').value)" class="w-full py-4 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-bold rounded-xl shadow-lg shadow-indigo-600/30 transition flex items-center justify-center space-x-2">
                                 <span>学習をはじめる</span>
                                 <i data-lucide="arrow-right" class="w-5 h-5"></i>
@@ -484,11 +1389,26 @@
                 const totalAnswered = userData.totalAnswered || 0;
                 const totalCorrect = userData.totalCorrect || 0;
                 const accuracy = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : 0;
+                const setScores = userData.setScores || {};
 
-                // レベルごとの件数カウント
-                const countA = this.words.filter(w => (w.level || 'A') === 'A').length;
-                const countB = this.words.filter(w => w.level === 'B').length;
-                const countC = this.words.filter(w => w.level === 'C').length;
+                // 難易度ごとに単語をフィルタリング
+                let filteredWords = this.words.filter(w => (w.level || 'A') === this.selectedLevel);
+                if (this.selectedLevel === 'ALL') filteredWords = this.words;
+
+                // 10問ずつの「セット」に分割作成
+                const sets = [];
+                const chunkSize = 10;
+                for (let i = 0; i < filteredWords.length; i += chunkSize) {
+                    const chunk = filteredWords.slice(i, i + chunkSize);
+                    const setNum = Math.floor(i / chunkSize) + 1;
+                    const setName = `${this.selectedLevel}-${setNum}`;
+                    sets.push({
+                        name: setName,
+                        startNum: i + 1,
+                        endNum: i + chunk.length,
+                        words: chunk
+                    });
+                }
 
                 return `
                     <div class="flex flex-col h-full justify-between space-y-4">
@@ -514,66 +1434,71 @@
                         <div class="bg-slate-900/60 border border-slate-700/60 rounded-2xl p-4 space-y-3">
                             <div>
                                 <label class="block text-xs font-semibold text-slate-400 mb-2">難易度を選択</label>
-                                <div class="grid grid-cols-4 gap-2">
+                                <div class="grid grid-cols-3 gap-2">
                                     ${[
-                                        { id: 'ALL', label: 'すべて', count: this.words.length },
-                                        { id: 'A', label: 'ランク A', count: countA },
-                                        { id: 'B', label: 'ランク B', count: countB },
-                                        { id: 'C', label: 'ランク C', count: countC }
+                                        { id: 'A', label: 'ランク A' },
+                                        { id: 'B', label: 'ランク B' },
+                                        { id: 'C', label: 'ランク C' }
                                     ].map(lvl => `
                                         <button onclick="app.selectedLevel='${lvl.id}'; app.render();" 
-                                            class="py-2 px-1 rounded-xl border text-xs font-bold transition flex flex-col items-center justify-center ${this.selectedLevel === lvl.id ? 'bg-indigo-600 border-indigo-500 text-white shadow-md' : 'bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700'}">
+                                            class="py-2.5 px-2 rounded-xl border text-xs font-bold transition ${this.selectedLevel === lvl.id ? 'bg-indigo-600 border-indigo-500 text-white shadow-md' : 'bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700'}">
                                             <span>${lvl.label}</span>
-                                            <span class="text-[10px] font-normal opacity-80">${lvl.count}語</span>
                                         </button>
                                     `).join('')}
                                 </div>
                             </div>
 
                             <div>
-                                <label class="block text-xs font-semibold text-slate-400 mb-2">出題順序を選択</label>
+                                <label class="block text-xs font-semibold text-slate-400 mb-2">出題順序</label>
                                 <div class="grid grid-cols-2 gap-2">
                                     <button onclick="app.selectedOrder='sequential'; app.render();" 
-                                        class="py-2.5 px-3 rounded-xl border text-xs font-bold transition flex items-center justify-center space-x-2 ${this.selectedOrder === 'sequential' ? 'bg-violet-600 border-violet-500 text-white shadow-md' : 'bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700'}">
-                                        <i data-lucide="list-ordered" class="w-4 h-4"></i>
+                                        class="py-2 px-3 rounded-xl border text-xs font-bold transition flex items-center justify-center space-x-1.5 ${this.selectedOrder === 'sequential' ? 'bg-violet-600 border-violet-500 text-white shadow-md' : 'bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700'}">
+                                        <i data-lucide="list-ordered" class="w-3.5 h-3.5"></i>
                                         <span>順番通り</span>
                                     </button>
                                     <button onclick="app.selectedOrder='random'; app.render();" 
-                                        class="py-2.5 px-3 rounded-xl border text-xs font-bold transition flex items-center justify-center space-x-2 ${this.selectedOrder === 'random' ? 'bg-violet-600 border-violet-500 text-white shadow-md' : 'bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700'}">
-                                        <i data-lucide="shuffle" class="w-4 h-4"></i>
+                                        class="py-2 px-3 rounded-xl border text-xs font-bold transition flex items-center justify-center space-x-1.5 ${this.selectedOrder === 'random' ? 'bg-violet-600 border-violet-500 text-white shadow-md' : 'bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700'}">
+                                        <i data-lucide="shuffle" class="w-3.5 h-3.5"></i>
                                         <span>ランダム</span>
                                     </button>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Main Actions -->
-                        <div class="space-y-2.5">
-                            <button onclick="app.startQuiz(10)" class="w-full p-4 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 rounded-2xl shadow-xl shadow-indigo-600/25 flex items-center justify-between text-left transition group">
-                                <div class="flex items-center space-x-4">
-                                    <div class="w-11 h-11 bg-white/10 rounded-xl flex items-center justify-center text-white">
-                                        <i data-lucide="play" class="w-5 h-5 fill-current"></i>
-                                    </div>
-                                    <div>
-                                        <h3 class="font-bold text-white text-base">スピードテスト (10問)</h3>
-                                        <p class="text-xs text-indigo-200">${this.selectedLevel === 'ALL' ? '全範囲' : 'ランク ' + this.selectedLevel} ・ ${this.selectedOrder === 'sequential' ? '順番通り' : 'ランダム'}</p>
-                                    </div>
-                                </div>
-                                <i data-lucide="chevron-right" class="w-5 h-5 text-indigo-200 group-hover:translate-x-1 transition"></i>
-                            </button>
-
-                            <button onclick="app.startQuiz(20)" class="w-full p-3.5 bg-slate-900 border border-slate-700/80 hover:bg-slate-700/50 rounded-2xl flex items-center justify-between text-left transition group">
-                                <div class="flex items-center space-x-4">
-                                    <div class="w-10 h-10 bg-amber-500/20 rounded-xl flex items-center justify-center text-amber-400 border border-amber-500/30">
-                                        <i data-lucide="flame" class="w-5 h-5"></i>
-                                    </div>
-                                    <div>
-                                        <h3 class="font-bold text-slate-100 text-sm">ロングテスト (20问)</h3>
-                                        <p class="text-[11px] text-slate-400">じっくり取り組みたいとき向け</p>
-                                    </div>
-                                </div>
-                                <i data-lucide="chevron-right" class="w-5 h-5 text-slate-400 group-hover:translate-x-1 transition"></i>
-                            </button>
+                        <!-- 10-Word Set List -->
+                        <div class="space-y-2 max-h-[220px] overflow-y-auto pr-1">
+                            <div class="text-xs font-bold text-slate-400 mb-1 flex items-center justify-between">
+                                <span>学習セット (各10問)</span>
+                                <span>全 ${sets.length} セット</span>
+                            </div>
+                            ${sets.length === 0 ? `
+                                <div class="text-center text-xs text-slate-500 py-4">この難易度の単語がまだ登録されていません</div>
+                            ` : sets.map(set => {
+                                const bestScore = setScores[set.name];
+                                const isCleared = bestScore !== undefined;
+                                return `
+                                    <button onclick="app.startQuizSet('${set.name}', app.words.filter(w => w.id >= ${set.words[0].id} && w.id <= ${set.words[set.words.length - 1].id}))" 
+                                        class="w-full p-3.5 bg-slate-900 border ${isCleared ? 'border-indigo-500/50' : 'border-slate-700/80'} hover:bg-slate-700/50 rounded-2xl flex items-center justify-between transition group text-left">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="w-9 h-9 rounded-xl ${isCleared ? 'bg-indigo-600 text-white' : 'bg-slate-800 text-slate-400'} flex items-center justify-center font-bold text-xs">
+                                                ${set.name}
+                                            </div>
+                                            <div>
+                                                <h4 class="font-bold text-slate-200 text-sm">セット ${set.name}</h4>
+                                                <p class="text-[11px] text-slate-400">${set.startNum} 〜 ${set.endNum} 語目</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center space-x-2">
+                                            ${isCleared ? `
+                                                <span class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded-lg border border-emerald-500/20">${bestScore}/${set.words.length} 正解</span>
+                                            ` : `
+                                                <span class="text-xs text-slate-500">未テスト</span>
+                                            `}
+                                            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition"></i>
+                                        </div>
+                                    </button>
+                                `;
+                            }).join('')}
                         </div>
 
                         <!-- Secondary Nav -->
@@ -596,12 +1521,14 @@
                 const currentQ = qs.questions[qs.currentIndex];
                 const total = qs.questions.length;
                 const progressPercent = ((qs.currentIndex) / total) * 100;
+                const setName = this.currentSetInfo ? this.currentSetInfo.setName : 'クイズ';
 
                 return `
                     <div class="flex flex-col h-full justify-between space-y-4">
                         <!-- Top Info & Timer -->
                         <div class="space-y-3">
                             <div class="flex items-center justify-between text-xs text-slate-400 font-semibold">
+                                <span class="bg-indigo-500/20 text-indigo-300 px-2.5 py-0.5 rounded-md font-bold">セット ${setName}</span>
                                 <span>問題 ${qs.currentIndex + 1} / ${total}</span>
                                 <span id="timer-text" class="text-indigo-400 font-bold text-sm">${qs.timeLeft}秒</span>
                             </div>
@@ -652,6 +1579,7 @@
                 const total = qs.questions.length;
                 const correct = qs.correctCount;
                 const accuracy = Math.round((correct / total) * 100);
+                const setName = this.currentSetInfo ? this.currentSetInfo.setName : 'クイズ';
 
                 let rank = "S+";
                 let colorClass = "text-amber-400";
@@ -662,7 +1590,7 @@
                 return `
                     <div class="flex flex-col h-full justify-between py-2 text-center">
                         <div class="space-y-2 mt-4">
-                            <span class="text-xs font-bold text-indigo-400 tracking-wider uppercase">TEST COMPLETED</span>
+                            <span class="text-xs font-bold text-indigo-400 tracking-wider uppercase">SET ${setName} COMPLETED</span>
                             <h2 class="text-2xl font-extrabold text-white">クイズ結果</h2>
                         </div>
 
@@ -677,9 +1605,9 @@
                         </div>
 
                         <div class="space-y-3">
-                            <button onclick="app.startQuiz(${total})" class="w-full py-4 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-bold rounded-2xl shadow-lg shadow-indigo-600/30 transition flex items-center justify-center space-x-2">
+                            <button onclick="app.startQuizSet('${setName}', app.quizState.questions.map((q, idx) => ({ id: idx, en: q.en, ja: q.ja })))" class="w-full py-4 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-bold rounded-2xl shadow-lg shadow-indigo-600/30 transition flex items-center justify-center space-x-2">
                                 <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
-                                <span>もう一度チャレンジ</span>
+                                <span>このセットをもう一度</span>
                             </button>
                             <button onclick="app.goHome()" class="w-full py-3.5 bg-slate-900 hover:bg-slate-700/50 border border-slate-700 text-slate-300 font-semibold rounded-2xl transition">
                                 ホームに戻る
@@ -711,7 +1639,7 @@
                             ` : history.map(item => `
                                 <div class="bg-slate-900 border border-slate-700/70 rounded-xl p-3.5 flex items-center justify-between">
                                     <div>
-                                        <div class="text-xs text-slate-400">${item.date}</div>
+                                        <div class="text-xs text-indigo-400 font-bold">${item.setName ? 'セット ' + item.setName : 'ランダム'} ・ ${item.date}</div>
                                         <div class="text-sm font-bold text-slate-200">${item.correct} / ${item.total} 正解</div>
                                     </div>
                                     <div class="text-right">
@@ -721,9 +1649,14 @@
                             `).join('')}
                         </div>
 
-                        <button onclick="app.goHome()" class="w-full py-3.5 bg-slate-900 border border-slate-700 hover:bg-slate-700/50 text-slate-300 font-semibold rounded-xl transition">
-                            ホームへ戻る
-                        </button>
+                        <div class="space-y-2">
+                            <button onclick="app.clearCurrentUserData()" class="w-full py-2 bg-slate-900 hover:bg-red-500/20 text-red-400 border border-slate-700 rounded-xl text-xs font-semibold transition">
+                                このユーザーの学習記録をリセット
+                            </button>
+                            <button onclick="app.goHome()" class="w-full py-3.5 bg-slate-900 border border-slate-700 hover:bg-slate-700/50 text-slate-300 font-semibold rounded-xl transition">
+                                ホームへ戻る
+                            </button>
+                        </div>
                     </div>
                 `;
             }
